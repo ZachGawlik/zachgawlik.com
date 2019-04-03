@@ -4,6 +4,7 @@ import { Link, graphql } from 'gatsby'
 import Layout from '../components/layout'
 import SEO from '../components/seo'
 import { rhythm, scale } from '../utils/typography'
+import { animatedHighlight, markdownStyle } from '../utils/style'
 
 class BlogPostTemplate extends React.Component {
   render() {
@@ -19,7 +20,7 @@ class BlogPostTemplate extends React.Component {
         />
         <h1>{post.frontmatter.title}</h1>
         <p
-          style={{
+          css={{
             ...scale(-1 / 5),
             display: 'block',
             marginBottom: rhythm(1),
@@ -28,14 +29,16 @@ class BlogPostTemplate extends React.Component {
         >
           {post.frontmatter.date}
         </p>
-        <div dangerouslySetInnerHTML={{ __html: post.html }} />
+        <div css={markdownStyle}>
+          <div dangerouslySetInnerHTML={{ __html: post.html }} />
+        </div>
         <hr
-          style={{
+          css={{
             marginBottom: rhythm(1),
           }}
         />
         <ul
-          style={{
+          css={{
             display: 'flex',
             flexWrap: 'wrap',
             justifyContent: 'space-between',
@@ -46,14 +49,18 @@ class BlogPostTemplate extends React.Component {
         >
           <li>
             {previous && (
-              <Link to={previous.fields.slug} rel="prev">
+              <Link
+                css={animatedHighlight}
+                to={previous.fields.slug}
+                rel="prev"
+              >
                 ← {previous.frontmatter.title}
               </Link>
             )}
           </li>
           <li>
             {next && (
-              <Link to={next.fields.slug} rel="next">
+              <Link css={animatedHighlight} to={next.fields.slug} rel="next">
                 {next.frontmatter.title} →
               </Link>
             )}

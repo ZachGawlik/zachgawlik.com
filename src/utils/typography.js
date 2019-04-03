@@ -1,5 +1,6 @@
 import Typography from 'typography'
 
+import './global.css'
 import noriegaTheme from 'typography-theme-noriega'
 
 const typography = new Typography(noriegaTheme)
