@@ -1,0 +1,20 @@
+.cache
+node_modules
+
+# Denylist all extensions
+*.js
+*.jsx
+*.json
+*.md
+
+# Allow specific files
+!README.md
+!.eslintrc.js
+!gatsby-browser.js
+!gatsby-config.js
+!gatsby-node.js
+!gatsby-ssr.js
+
+# Allow specific directories
+!src/**/*
+!content/**/*.md
