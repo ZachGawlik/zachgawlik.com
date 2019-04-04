@@ -5,8 +5,8 @@ import Layout from '../components/layout'
 import SEO from '../components/seo'
 import { rhythm } from '../utils/typography'
 
-const BlogIndex = ({ data }) => (
-  <Layout location={this.props.location}>
+const BlogIndex = ({ data, location }) => (
+  <Layout location={location}>
     <SEO
       title="All posts"
       keywords={['blog', 'gatsby', 'javascript', 'react']}
