@@ -55,44 +55,37 @@ const NameTitle = ({ location, title }) => {
   )
 }
 
-class Layout extends React.Component {
-  render() {
-    const { location, children } = this.props
-    let header
-
-    // if (location.pathname === rootPath) {
-    return (
-      <div
+const Layout = ({ className, location, children }) => (
+  <div
+    css={{
+      marginLeft: `auto`,
+      marginRight: `auto`,
+      maxWidth: rhythm(24),
+      padding: `${rhythm(1.5)} ${rhythm(3 / 4)}`,
+    }}
+    className={className}
+  >
+    <header
+      css={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'baseline',
+      }}
+    >
+      <NameTitle location={location} />
+      <Link
+        to="/blog"
         css={{
-          marginLeft: `auto`,
-          marginRight: `auto`,
-          maxWidth: rhythm(24),
-          padding: `${rhythm(1.5)} ${rhythm(3 / 4)}`,
+          padding: '0 10px',
+          textDecoration: 'none',
+          color: 'black',
         }}
       >
-        <header
-          css={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'baseline',
-          }}
-        >
-          <NameTitle location={location} />
-          <Link
-            to="/blog"
-            css={{
-              padding: '0 10px',
-              textDecoration: 'none',
-              color: 'black',
-            }}
-          >
-            Blog
-          </Link>
-        </header>
-        <main>{children}</main>
-      </div>
-    )
-  }
-}
+        Blog
+      </Link>
+    </header>
+    <main>{children}</main>
+  </div>
+)
 
 export default Layout
