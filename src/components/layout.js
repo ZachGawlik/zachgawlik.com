@@ -1,8 +1,17 @@
 import React from 'react'
-import { Link } from 'gatsby'
+import { useStaticQuery, graphql, Link } from 'gatsby'
 import { rhythm, scale } from '../utils/typography'
 
 const NameTitle = ({ location, title }) => {
+  const { site } = useStaticQuery(graphql`
+    query {
+      site {
+        siteMetadata {
+          title
+        }
+      }
+    }
+  `)
   const rootPath = `${__PATH_PREFIX__}/`
   if (location.pathname === rootPath) {
     return (
@@ -20,7 +29,7 @@ const NameTitle = ({ location, title }) => {
           }}
           to={`/`}
         >
-          {title}
+          {site.siteMetadata.title}
         </Link>
       </h1>
     )
@@ -40,7 +49,7 @@ const NameTitle = ({ location, title }) => {
         }}
         to="/"
       >
-        {title}
+        {site.siteMetadata.title}
       </Link>
     </h3>
   )
@@ -48,7 +57,7 @@ const NameTitle = ({ location, title }) => {
 
 class Layout extends React.Component {
   render() {
-    const { location, title, children } = this.props
+    const { location, children } = this.props
     let header
 
     // if (location.pathname === rootPath) {
@@ -68,7 +77,7 @@ class Layout extends React.Component {
             alignItems: 'baseline',
           }}
         >
-          <NameTitle location={location} title={title} />
+          <NameTitle location={location} />
           <Link
             to="/blog"
             css={{
