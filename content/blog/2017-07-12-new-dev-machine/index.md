@@ -1,6 +1,7 @@
 ---
 title: 'Setting up a macOS Dev Machine'
 date: '2017-07-12'
+description: ''
 ---
 
 Due to Northeastern University's co-op program where I worked somewhere new every year, I became accustomed to having to frequently set up a new laptop for development work. Now in an effort to prolong the life of my personal laptop I've started to fresh install my OS regularly to rid it of accumulated clutter. Having to set up a fresh install so often, I've become familiar with the order and approaches to doing this quickly and painlessly.

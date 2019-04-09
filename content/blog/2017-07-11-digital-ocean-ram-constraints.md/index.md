@@ -1,6 +1,7 @@
 ---
 title: How I Sidestepped DigitalOcean RAM Constraints
 date: '2017-07-11'
+description: ''
 ---
 
 When it came time to put my pet project [Print To Resist][print-to-resist-repo] online, I faced a set of unfamiliar problems. It was my first full stack project that I was deploying by myself and my first time working with DigitalOcean. While their setup guides were helpful, I was at a loss when I got this error when I tried to run `npm install` to build my React front end on the server.
