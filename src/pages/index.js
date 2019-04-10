@@ -40,6 +40,28 @@ const logoIconStyles = css`
 
 const InlineLink = styled('a')(animatedHighlight)
 
+const getFromCache = () => {
+  const cached = localStorage.getItem('starsByRepo')
+  if (cached) {
+    const cache = JSON.parse(cached)
+    const ONE_WEEK = 7 * 24 * 60 * 60 * 1000
+    if (cache.value && cache.timestamp > new Date().getTime() - ONE_WEEK) {
+      return cache.value
+    }
+  }
+  return null
+}
+
+const setCache = starsByRepo => {
+  localStorage.setItem(
+    'starsByRepo',
+    JSON.stringify({
+      timestamp: new Date().getTime(),
+      value: starsByRepo,
+    })
+  )
+}
+
 const Home = ({ location }) => {
   const { profileImage } = useStaticQuery(graphql`
     query {
@@ -52,6 +74,29 @@ const Home = ({ location }) => {
       }
     }
   `)
+
+  const [starsByRepo, setStarsByRepo] = React.useState(getFromCache() || {})
+
+  React.useEffect(() => {
+    if (getFromCache()) {
+      return
+    }
+
+    fetch('https://api.github.com/users/zachgawlik/repos?type=owner')
+      .then(data => data.json())
+      .then(repos => {
+        const result = {}
+        if (Array.isArray(repos)) {
+          repos.forEach(repo => {
+            if (opensourceProjects.indexOf(repo.name) > -1) {
+              result[repo.name] = repo.stargazers_count
+            }
+          })
+          setStarsByRepo(result)
+          setCache(result)
+        }
+      })
+  })
 
   return (
     <Layout location={location}>
@@ -173,7 +218,28 @@ const Home = ({ location }) => {
             {opensourceProjects.map(repo => (
               <li key={repo}>
                 <InlineLink href={`https://github.com/zachgawlik/${repo}`}>
-                  {repo}
+                  {repo}{' '}
+                  {starsByRepo[repo] ? (
+                    <span
+                      css={css`
+                        font-size: 14px;
+                        display: inline-block;
+                        transform: translateY(-2px);
+                      `}
+                    >
+                      ({starsByRepo[repo]}
+                      <span
+                        css={css`
+                          font-size: 12px;
+                        `}
+                        role="img"
+                        aria-label="GitHub Stars"
+                      >
+                        ★
+                      </span>
+                      )
+                    </span>
+                  ) : null}
                 </InlineLink>
               </li>
             ))}
