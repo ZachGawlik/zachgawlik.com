@@ -5,6 +5,5 @@ module.exports = {
   },
   rules: {
     'react/display-name': 'none',
-    'jsx-a11y/accessible-emoji': 'off',
   },
 }
