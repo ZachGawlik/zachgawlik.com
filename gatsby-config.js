@@ -61,13 +61,13 @@ module.exports = {
     {
       resolve: 'gatsby-plugin-manifest',
       options: {
-        name: 'Gatsby Starter Blog',
-        short_name: 'GatsbyJS',
+        name: 'Zach Gawlik',
+        short_name: 'Zach Gawlik',
         start_url: '/',
         background_color: '#ffffff',
         theme_color: '#663399',
         display: 'minimal-ui',
-        icon: 'content/assets/gatsby-icon.png',
+        icon: 'src/assets/manifest-icon.svg',
       },
     },
     'gatsby-plugin-offline',
