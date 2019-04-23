@@ -18,7 +18,7 @@ const NameTitle = ({ location, title }) => {
       <h1
         css={{
           ...scale(1.5),
-          marginBottom: rhythm(1.5),
+          marginBottom: rhythm(1),
         }}
       >
         <Link

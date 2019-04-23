@@ -7,30 +7,17 @@ import Img from 'gatsby-image'
 import Layout from '../components/layout'
 import SEO from '../components/seo'
 
+import Link from '../components/Link'
 import EmailIcon from '../components/Icons/Email'
 import GithubIcon from '../components/Icons/Github'
 import LinkedinIcon from '../components/Icons/Linkedin'
 
-import { animatedHighlight } from '../utils/style'
+import { rhythm } from '../utils/typography'
 
-const opensourceProjects = [
-  'webpack-stats-diff-plugin',
-  'webpack-stats-diff',
-  'react-class-to-data-attr-codemod',
-  'print-to-resist',
-]
-
-const halfColumn = css`
-  margin-bottom: 3em;
-  flex-grow: 0;
-  flex-shrink: 0;
-  flex-basis: 100%;
-
-  @media (min-width: 768px) {
-    margin-bottom: 0;
-    flex-basis: 50%;
-  }
-`
+import vscodeDemo from '../assets/homepage/convert-object-to-jsx-demo.gif'
+import lightMeUpDemo from '../assets/homepage/light-me-up-demo.mp4'
+import lightMeUpDemoPoster from '../assets/homepage/light-me-up-demo-poster.png'
+import webpackStatsDiffPluginDemo from '../assets/homepage/webpack-stats-diff-plugin-output.png'
 
 const logoIconStyles = css`
   height: 40px;
@@ -38,7 +25,52 @@ const logoIconStyles = css`
   transition: all 0.2s ease-out;
 `
 
-const InlineLink = styled('a')(animatedHighlight)
+const RPI_DEMO_RATIO = 404 / 720
+const AspectRatioBox = styled('div')`
+  background: white;
+
+  &::before {
+    content: '';
+    width: 1px;
+    margin-left: -1px;
+    float: left;
+    height: 0;
+    padding-top: ${props => props.ratio}px* 100%;
+  }
+  &::after {
+    /* to clear float */
+    content: '';
+    display: table;
+    clear: both;
+  }
+`
+
+const RepoLink = ({ repo, title, starsByRepo }) => (
+  <Link to={`https://github.com/zachgawlik/${repo}`}>
+    {title}{' '}
+    {starsByRepo[repo] ? (
+      <span
+        css={css`
+          font-size: 14px;
+          display: inline-block;
+          transform: translateY(-2px);
+        `}
+      >
+        ({starsByRepo[repo]}
+        <span
+          css={css`
+            font-size: 12px;
+          `}
+          role="img"
+          aria-label="GitHub Stars"
+        >
+          ★
+        </span>
+        )
+      </span>
+    ) : null}
+  </Link>
+)
 
 const getFromCache = () => {
   const cached = localStorage.getItem('starsByRepo')
@@ -85,12 +117,10 @@ const Home = ({ location }) => {
     fetch('https://api.github.com/users/zachgawlik/repos?type=owner')
       .then(data => data.json())
       .then(repos => {
-        const result = {}
         if (Array.isArray(repos)) {
+          const result = {}
           repos.forEach(repo => {
-            if (opensourceProjects.indexOf(repo.name) > -1) {
-              result[repo.name] = repo.stargazers_count
-            }
+            result[repo.name] = repo.stargazers_count
           })
           setStarsByRepo(result)
           setCache(result)
@@ -101,23 +131,27 @@ const Home = ({ location }) => {
   return (
     <Layout location={location}>
       <SEO
-        title="All posts"
-        keywords={['blog', 'gatsby', 'javascript', 'react']}
+        title="Zach Gawlik"
+        keywords={[
+          'javascript',
+          'react',
+          'portfolio',
+          'frontend developer',
+          'software engineer',
+          'NYC',
+        ]}
       />
       <div
         css={css`
-          margin: 3em 0;
-          @media (min-width: 768px) {
-            display: flex;
-            flex-direction: row-reverse;
-            justify-content: space-between;
-          }
+          margin: 2em 0;
         `}
       >
         <div
           css={css`
             @media (min-width: 768px) {
               width: 20%;
+              float: right;
+              margin: 0 3em;
             }
           `}
         >
@@ -175,34 +209,39 @@ const Home = ({ location }) => {
             </a>
           </div>
         </div>
-        <div
-          css={css`
-            @media (min-width: 768px) {
-              width: 75%;
-            }
-          `}
-        >
+        <div>
+          <h2>About</h2>
           <p>
-            I am a software engineer who likes to make web applications that
-            streamline complicated processes and are enjoyable to use. Lately
-            I've been focusing on front end web development with React, but I
-            enjoy learning new tools and technologies across the full stack. I'm
-            recently interested in the various applications of abstract syntax
-            trees in JavaScript (prettier, linting, babel transformations,
-            codemods), and I'm working to contribute back to the open source
-            community.
+            I’m a frontend engineer who enjoys building complex web applications
+            that provide a great user experience. I also enjoy improving the
+            developer experience by creating new tools or using existing ones to
+            streamline development, creating the right abstractions or ripping
+            out wrong ones, and improving validation and deployment
+            infrastructure to ensure quick and confident delivery of new code.
           </p>
           <p>
-            I currently work at{' '}
-            <InlineLink
-              href="https://www.bluecore.com/"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Bluecore
-            </InlineLink>{' '}
-            in New York, NY. Outside of coding, I am learning Spanish and
-            getting acquainted with my sewing machine.
+            Recently I’ve been inspired by the various applications of parsing
+            JavaScript into abstract syntax trees. This has led me to create a
+            jscodeshift{' '}
+            <Link to="https://github.com/ZachGawlik/react-class-to-data-attr-codemod">
+              codemod
+            </Link>{' '}
+            or{' '}
+            <Link to="https://gist.github.com/ZachGawlik/effabb207e37a1bc3c02593e0b751996">
+              two
+            </Link>
+            , to{' '}
+            <Link to="https://github.com/prettier/prettier/pull/4315">
+              improve
+            </Link>{' '}
+            async/await formatting in Prettier, and to build an internal
+            component library documentation site at work with MDX.
+          </p>
+          <p>
+            I am currently a Senior Software Engineer at{' '}
+            <Link to="https://www.bluecore.com/">Bluecore</Link> in New York
+            City. Outside of coding, I am getting back into learning basic
+            Spanish and am attempting to keep my new plants alive.
           </p>
         </div>
       </div>
@@ -212,52 +251,92 @@ const Home = ({ location }) => {
           flex-wrap: wrap;
         `}
       >
-        <div css={halfColumn}>
-          <h2>Open-Source Projects</h2>
-          <ul>
-            {opensourceProjects.map(repo => (
-              <li key={repo}>
-                <InlineLink href={`https://github.com/zachgawlik/${repo}`}>
-                  {repo}{' '}
-                  {starsByRepo[repo] ? (
-                    <span
-                      css={css`
-                        font-size: 14px;
-                        display: inline-block;
-                        transform: translateY(-2px);
-                      `}
-                    >
-                      ({starsByRepo[repo]}
-                      <span
-                        css={css`
-                          font-size: 12px;
-                        `}
-                        role="img"
-                        aria-label="GitHub Stars"
-                      >
-                        ★
-                      </span>
-                      )
-                    </span>
-                  ) : null}
-                </InlineLink>
-              </li>
-            ))}
-          </ul>
-          <InlineLink href="https://github.com/ZachGawlik?tab=repositories&type=source">
-            View more...
-          </InlineLink>
+        <h2>Personal open-source projects</h2>
+        <div>
+          <h3>
+            <RepoLink
+              starsByRepo={starsByRepo}
+              repo="webpack-stats-diff-plugin"
+              title="Webpack Stats Diff Plugin"
+            />
+          </h3>
+          <p>
+            Webpack plugin to report bundle size changes relative to the prior
+            build or earlier recorded builds. Provides clear feedback on the
+            impact of webpack configuration changes, empowering developers to
+            find the most optimized settings
+          </p>
+          <img
+            src={webpackStatsDiffPluginDemo}
+            alt="Example output after running a production webpack build with webpack-stats-diff-plugin. The output reports the size of compiled files that have been added or removed, the size differences of files that have changed, and the total before & after size of the full build"
+          />
         </div>
-        <div css={halfColumn}>
-          <h2>Past experience</h2>
-          <ul>
-            <li>Bluecore (Sept. 2017 - Present)</li>
-            <li>HubSpot</li>
-            <li>Yeti LLC</li>
-            <li>Novartis Institutes for Biomedical Research</li>
-          </ul>
-          <InlineLink href="/resume-zach-gawlik.pdf">View resume</InlineLink>
+        <div css={css``}>
+          <h3>
+            <RepoLink
+              starsByRepo={starsByRepo}
+              repo="vscode-convert-object-to-jsx"
+              title="VS Code Convert Object to JSX"
+            />
+          </h3>
+          <p>
+            VS Code extension to convert between JavaScript object and JSX prop
+            formats upon pressing a keyboard shortcut. Saves developer time when
+            switching formats, like when creating default props to use in a
+            component test
+          </p>
+          <img
+            css={css`
+              display: block;
+              margin-left: auto;
+              margin-right: auto;
+            `}
+            src={vscodeDemo}
+            alt="Animated demonstration moving default props in and out of a test helper and using the extension to switch between JSX props syntax and Object entries syntax"
+          />
         </div>
+        <div>
+          <h3>
+            <RepoLink
+              starsByRepo={starsByRepo}
+              title="Light me up"
+              repo="light-me-up"
+            />{' '}
+          </h3>
+          <p>
+            Draw on-screen to make it appear on a connected Raspberry Pi with
+            LED matrix. Responsive vanilla JavaScript frontend and Node.js
+            backend using Socket.IO for syncing across active users and the
+            Raspberry Pi
+          </p>
+          <AspectRatioBox ratio={RPI_DEMO_RATIO}>
+            <video
+              css={css`
+                display: block;
+                margin-left: auto;
+                margin-right: auto;
+                margin-bottom: ${rhythm(1)};
+                height: 100%;
+                width: 100%;
+                max-width: ${RPI_DEMO_RATIO * 500}px;
+              `}
+              poster={lightMeUpDemoPoster}
+              controls
+            >
+              <source src={lightMeUpDemo} type="video/mp4" />
+            </video>
+          </AspectRatioBox>
+        </div>
+      </div>
+      <div>
+        <h2>Etc.</h2>
+        <p>
+          View my other open-source work on{' '}
+          <Link to="https://github.com/ZachGawlik?tab=repositories&type=source">
+            GitHub
+          </Link>{' '}
+          or my (soon-to-be-revived) <Link to="/blog">blog</Link>
+        </p>
       </div>
     </Layout>
   )
