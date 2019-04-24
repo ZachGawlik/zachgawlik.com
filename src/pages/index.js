@@ -143,6 +143,7 @@ const Home = ({ location }) => {
     <Layout location={location}>
       <SEO
         title="Zach Gawlik"
+        description="Frontend developer in NYC who likes to build complex web applications"
         keywords={[
           'javascript',
           'react',
