@@ -151,6 +151,9 @@ const Home = ({ location }) => {
       >
         <div
           css={css`
+            width: 100%;
+            max-width: 300px;
+            margin: 2em auto;
             @media (min-width: 768px) {
               width: 20%;
               float: right;
@@ -161,11 +164,9 @@ const Home = ({ location }) => {
           <div>
             <Img
               css={css`
-                width: 100%;
-                max-width: 300px;
                 display: block;
-                margin: 2em auto;
                 border-radius: 50%;
+                margin-top: 2em;
               `}
               alt="Zach Gawlik"
               fluid={profileImage.childImageSharp.fluid}
@@ -175,9 +176,11 @@ const Home = ({ location }) => {
             css={css`
               display: flex;
               justify-content: space-between;
-              max-width: 300px;
-              margin: 2em auto;
-              width: 100%;
+              margin: 2em;
+              @media (min-width: 768px) {
+                margin-left: 0;
+                margin-right: 0;
+              }
             `}
           >
             <a href="https://github.com/ZachGawlik">
