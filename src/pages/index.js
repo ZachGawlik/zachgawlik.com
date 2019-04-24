@@ -73,12 +73,15 @@ const RepoLink = ({ repo, title, starsByRepo }) => (
 )
 
 const getFromCache = () => {
-  const cached = localStorage.getItem('starsByRepo')
-  if (cached) {
-    const cache = JSON.parse(cached)
-    const ONE_WEEK = 7 * 24 * 60 * 60 * 1000
-    if (cache.value && cache.timestamp > new Date().getTime() - ONE_WEEK) {
-      return cache.value
+  // don't trip on this for SSR
+  if (typeof window !== 'undefined') {
+    const cached = localStorage.getItem('starsByRepo')
+    if (cached) {
+      const cache = JSON.parse(cached)
+      const ONE_WEEK = 7 * 24 * 60 * 60 * 1000
+      if (cache.value && cache.timestamp > new Date().getTime() - ONE_WEEK) {
+        return cache.value
+      }
     }
   }
   return null
