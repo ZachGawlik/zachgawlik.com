@@ -2,7 +2,7 @@ import React from 'react'
 import { css } from '@emotion/core'
 import styled from '@emotion/styled'
 import { useStaticQuery, graphql } from 'gatsby'
-import Img from 'gatsby-image'
+import Image from 'gatsby-image'
 
 import Layout from '../components/layout'
 import SEO from '../components/seo'
@@ -17,7 +17,6 @@ import { rhythm } from '../utils/typography'
 import vscodeDemo from '../assets/homepage/convert-object-to-jsx-demo.gif'
 import lightMeUpDemo from '../assets/homepage/light-me-up-demo.mp4'
 import lightMeUpDemoPoster from '../assets/homepage/light-me-up-demo-poster.png'
-import webpackStatsDiffPluginDemo from '../assets/homepage/webpack-stats-diff-plugin-output.png'
 
 const logoIconStyles = css`
   height: 40px;
@@ -98,11 +97,20 @@ const setCache = starsByRepo => {
 }
 
 const Home = ({ location }) => {
-  const { profileImage } = useStaticQuery(graphql`
+  const { profileImage, webpackStatsDiffPluginDemo } = useStaticQuery(graphql`
     query {
-      profileImage: file(relativePath: { eq: "zachgawlik.jpg" }) {
+      profileImage: file(relativePath: { eq: "homepage/zachgawlik.jpg" }) {
         childImageSharp {
           fluid(maxWidth: 600) {
+            ...GatsbyImageSharpFluid
+          }
+        }
+      }
+      webpackStatsDiffPluginDemo: file(
+        relativePath: { eq: "homepage/webpack-stats-diff-plugin-output.png" }
+      ) {
+        childImageSharp {
+          fluid(maxWidth: 700) {
             ...GatsbyImageSharpFluid
           }
         }
@@ -162,7 +170,7 @@ const Home = ({ location }) => {
           `}
         >
           <div>
-            <Img
+            <Image
               css={css`
                 display: block;
                 border-radius: 50%;
@@ -272,9 +280,12 @@ const Home = ({ location }) => {
             impact of webpack configuration changes, empowering developers to
             find the most optimized settings
           </p>
-          <img
-            src={webpackStatsDiffPluginDemo}
+          <Image
+            css={css`
+              margin-bottom: ${rhythm(1)};
+            `}
             alt="Example output after running a production webpack build with webpack-stats-diff-plugin. The output reports the size of compiled files that have been added or removed, the size differences of files that have changed, and the total before & after size of the full build"
+            fluid={webpackStatsDiffPluginDemo.childImageSharp.fluid}
           />
         </div>
         <div css={css``}>
