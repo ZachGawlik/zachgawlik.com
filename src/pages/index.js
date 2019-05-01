@@ -279,7 +279,7 @@ const Home = ({ location }) => {
             Webpack plugin to report bundle size changes relative to the prior
             build or earlier recorded builds. Provides clear feedback on the
             impact of webpack configuration changes, empowering developers to
-            find the most optimized settings
+            find the most optimized settings.
           </p>
           <Image
             css={css`
@@ -301,7 +301,7 @@ const Home = ({ location }) => {
             VS Code extension to convert between JavaScript object and JSX prop
             formats upon pressing a keyboard shortcut. Saves developer time when
             switching formats, like when creating default props to use in a
-            component test
+            component test.
           </p>
           <img
             css={css`
@@ -325,7 +325,7 @@ const Home = ({ location }) => {
             Draw on-screen to make it appear on a connected Raspberry Pi with
             LED matrix. Responsive vanilla JavaScript frontend and Node.js
             backend using Socket.IO for syncing across active users and the
-            Raspberry Pi
+            Raspberry Pi.
           </p>
           <AspectRatioBox ratio={RPI_DEMO_RATIO}>
             <video
