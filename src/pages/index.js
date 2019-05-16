@@ -340,9 +340,10 @@ const Home = ({ location }) => {
               `}
               poster={lightMeUpDemoPoster}
               controls
-            >
-              <source src={lightMeUpDemo} type="video/mp4" />
-            </video>
+              crossOrigin="anonymous"
+              src={lightMeUpDemo}
+              type="video/mp4"
+            />
           </AspectRatioBox>
         </div>
       </div>
