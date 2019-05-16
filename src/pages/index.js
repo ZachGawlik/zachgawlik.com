@@ -339,10 +339,11 @@ const Home = ({ location }) => {
                 max-width: ${RPI_DEMO_RATIO * 500}px;
               `}
               poster={lightMeUpDemoPoster}
-              controls
-            >
-              <source src={lightMeUpDemo} type="video/mp4" />
-            </video>
+              controls="true"
+              src={lightMeUpDemo}
+              type="video/mp4"
+              crossOrigin="anonymous"
+            />
           </AspectRatioBox>
         </div>
       </div>
