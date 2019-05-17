@@ -39,6 +39,7 @@ rg '<Avatar[^/]*/>' --multiline --no-filename --no-line-number | rg 'size'
     crossOrigin="anonymous"
     src="avatar-usages.mp4"
     type="video/mp4"
+    width="100%"
     loop
 />
 
@@ -68,6 +69,7 @@ The key here is using regex capture groups and the `--only-matching` (`-o`) opti
     crossOrigin="anonymous"
     src="underscore-counts.mp4"
     type="video/mp4"
+    width="100%"
     loop
 />
 
