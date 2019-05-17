@@ -32,6 +32,7 @@ export const markdownStyle = css`
   }
 
   // Inline code
+  summary > code,
   p > code,
   li > code,
   a > code {
