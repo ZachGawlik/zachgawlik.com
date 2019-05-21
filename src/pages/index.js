@@ -350,11 +350,13 @@ const Home = ({ location }) => {
       <div>
         <h2>Etc.</h2>
         <p>
-          View my other open-source work on{' '}
+          Check out my other open-source work on{' '}
           <Link to="https://github.com/ZachGawlik?tab=repositories&type=source">
             GitHub
           </Link>{' '}
-          or my (soon-to-be-revived) <Link to="/blog">blog</Link>
+          , read about what I've learned and what I've done on my
+          recently-revived <Link to="/blog">blog</Link>, and view my{' '}
+          <Link to="/zach-gawlik-resume.pdf">Resume</Link>.
         </p>
       </div>
     </Layout>
