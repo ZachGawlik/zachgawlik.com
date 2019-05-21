@@ -22,7 +22,7 @@ Answering questions like "does this optional prop ever get supplied?" or "is the
 
 Searching for the prop's name directly may yield results for too many other components for generic prop names like `onClick`, `type`, or `theme`. Using "Find All" for the component name in a code editor could also return 100+ results that you'd have to click through to see each match.
 
-Instead, we can search with ripgrep to print out all usages. Running `rg <Avatar` will find the first lines using the component but doesn't surface any of the props if they're on new lines. To do this, we can be a bit clever with regex to match the JSX element itself:
+Instead, we can search with ripgrep to print out all usages. Running `rg <Avatar` will find the first lines using the component but doesn't include the props if they're on new lines. To do this, we can be a bit clever with regex to match the JSX element itself:
 
 ```
 rg '<Avatar[^/]*/>' --multiline
@@ -73,10 +73,23 @@ The key here is using regex capture groups and the `--only-matching` (`-o`) opti
     loop
 />
 
-This technique can be adapted for other use-cases. If there are many different button components, you can get usage stats to find which buttons are widely used and which are one-offs:
+This technique can be adapted for other use cases that could benefit from surfacing common patterns and distinguishing outliers. To tame down style variations across an application for something like `font-weight`:
 
 ```
-rg '<(\w*)Button' --no-filename --no-line-number -o | sort | uniq -c | sort -r
+rg 'font-weight: (\w*);' -o --no-filename | sort | uniq -c | sort -r
+  91 font-weight: 600;
+  88 font-weight: 400;
+  27 font-weight: 800;
+   9 font-weight: 900;
+   3 font-weight: 300;
+```
+
+The above tells us that a weight of 600 is frequently used as the "bold" option, 400 serves as the "normal" weight, and 800 is a frequent "extra bold" weight, while the few usages of 900 potentially should get standardized to extra bold and the usages of 300 should probably align with the normal weight. Moderately changing the above regular expression for other CSS properties like `color`, `background-color`, or even `z-index` can be helpful for establishing "design tokens" that act as an intentionally limited set of accepted constant values with names reflecting their use cases.
+
+Speaking of, Ripgrep can also shed light on an existing design system that is built as a component library. If there are many different button components, you can get usage stats to find which buttons are widely used and which are one-offs:
+
+```
+rg '<(\w*)Button' -o --no-filename --no-line-number | sort | uniq -c | sort -r
   45 <OutlineButton
   27 <Button
   26 <PrimaryOutlineButton
@@ -85,9 +98,9 @@ rg '<(\w*)Button' --no-filename --no-line-number -o | sort | uniq -c | sort -r
    1 <ContinueButton
 ```
 
-If the above were for code in a design system, this could point towards which styles are primary button styles and which fringe variations might be worth removing for consistency.
+This exercise points towards which styles are primary button styles and which fringe variations might be worth removing for improving app-wide consistency.
 
-Similarly, if your codebase has an internal library for code reuse or has folders like "common" or "shared", you can use ripgrep to search all import statements to ensure those files really are widely used:
+If your codebase has an internal library for code reuse or has folders like "common" or "shared", you can use ripgrep to search all import statements to ensure those files really are widely used:
 
 ```
 rg 'common/(.*)' -o --no-filename --no-line-number | sort | uniq -c | sort
@@ -99,7 +112,7 @@ rg 'common/(.*)' -o --no-filename --no-line-number | sort | uniq -c | sort
   29 common/Spacer'
 ```
 
-The files with only 1 usage could be candidates for inlining, while the lower usage counts could be candidates for colocating with the code that uses them.
+The files with only 1 usage could be candidates for inlining, while other lower usage counts could be candidates for colocating with the code that uses them.
 
 ## In closing
 
