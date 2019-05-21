@@ -4,8 +4,8 @@ import styled from '@emotion/styled'
 import { animatedHighlight } from '../utils/style'
 
 const Link = ({ to, children, ...props }) => {
-  // GatsbyLink only for url starting with exactly one forward slash
-  const internal = /^\/(?!\/)/.test(to)
+  // Use GatsbyLink for pages relative to root but not file assets
+  const internal = to.indexOf('.') === -1 && to.indexOf('/') === 0
 
   return !internal ? (
     <a href={to} {...props}>
