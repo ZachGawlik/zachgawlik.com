@@ -1,9 +1,11 @@
 module.exports = {
-  extends: 'react-app',
-  globals: {
-    __PATH_PREFIX__: true,
+  env: {
+    es6: true,
   },
+  extends: ['eslint:recommended', 'next/core-web-vitals', 'prettier'],
+  plugins: [],
+  globals: {},
   rules: {
-    'react/display-name': 'none',
+    '@next/next/no-img-element': 'off', // annoying for unsupported formats like gif
   },
-}
+};
